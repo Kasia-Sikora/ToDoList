@@ -1,0 +1,22 @@
+<h1>To Do List</h1>
+<div class="nav">
+    {#    <span class="nav-item">#}
+    {#        <button class="btn my-2 my-sm-0"><img src="../static/img/hamburger-menu.png" alt="menu"></button>#}
+    {#    </span>#}
+    <span class="nav-item">
+        <button class="btn my-2 my-sm-0">Boards</button>
+    </span>
+    <span id="user">
+    {% if username %}
+        {{ username }}
+        <button class="btn my-2 my-sm-0" id="logout_button"><a href="/logout">Logout</a></button>
+    {% else %}
+        <button class="btn my-2 my-sm-0" id="registration_button"  data-toggle="modal" data-target="#elegantModalForm1">Registration</button>
+        <button class="btn my-2 my-sm-0" id="login_button"  data-toggle="modal" data-target="#elegantModalForm2">Login</button>
+    {% endif %}
+</span>
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn my-2 my-sm-0" type="submit">Search</button>
+    </form>
+</div>
