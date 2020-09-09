@@ -1,4 +1,3 @@
-import psycopg2
 import connection
 
 
@@ -9,7 +8,8 @@ def check_if_user_exist_in_database(cursor, username):
         WHERE username = %(username)s''', {'username': username}
     )
     user_data = cursor.fetchone()
-    if len(user_data) == 0:
+    print('userData', user_data)
+    if user_data is None:
         return False
     else:
         return user_data
@@ -20,17 +20,18 @@ def save_user(cursor, username, password):
     cursor.execute(
         '''INSERT INTO users (username, password)
         VALUES (%(username)s, %(password)s);
-        SELECT username from USERS 
+        SELECT id, username from USERS 
         WHERE username = %(username)s
         ''', {'username': username, 'password': password}
     )
     registration_login = cursor.fetchone()
-    return registration_login['username']
+    print(registration_login)
+    return [registration_login['id'], registration_login['username']]
 
 
 @connection.connection_handler
-def getBoards(cursor):
-    cursor.execute('''SELECT * FROM boards''')
+def get_boards(cursor, user_id):
+    cursor.execute('''SELECT * FROM boards WHERE user_id = %(user_id)s''', {'user_id': user_id})
     return cursor.fetchall()
 
 

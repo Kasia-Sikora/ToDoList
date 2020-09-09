@@ -61,6 +61,22 @@ button {
     width: 100%;
 }
 
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
+    grid-gap: 5px;
+    margin-top: 5px;
+}
+
+.dropdown-menu, .show{
+    margin-left: -70px;
+}
+
+.card-subtitle{
+    font-size: 0.7rem;
+}
+
 
 #user {
     position: absolute;
@@ -168,6 +184,10 @@ button {
 
     .col-12 {
         width: 100%;
+    }
+
+    .container{
+        max-width: 95vw;
     }
 }
 
