@@ -41,3 +41,10 @@ def save_new_board(cursor, data):
         '''INSERT INTO boards (id, title, owner)
         VALUES(%(id)s, %(title)s, %(owner)s);''', data)
     return ''
+
+
+@connection.connection_handler
+def remove_board(cursor, board_id):
+    cursor.execute(
+        '''DELETE FROM boards WHERE id = %s''', board_id)
+    return ''

@@ -1,6 +1,6 @@
 export let dataHandler = {
 
-    getBoards: function fetchBoards(callback) {
+    getBoards: function(callback) {
         fetch('/get_boards', {
             method: 'GET',
             credentials: 'same-origin'
@@ -11,5 +11,14 @@ export let dataHandler = {
                     callback(data)
                 }
             })
+    },
+    removeBoard: function (boardId) {
+        fetch('/remove_board/' + boardId, {
+            method: 'DELETE',
+            credentials: 'same-origin',
+            body: boardId
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
     }
 }

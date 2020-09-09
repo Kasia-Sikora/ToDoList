@@ -121,5 +121,11 @@ def save_boards_from_JS():
     return ''
 
 
+@app.route('/remove_board/<boardId>', methods=['DELETE'])
+def remove_board(boardId):
+    data_handler.remove_board(boardId)
+    return json.dumps(0)
+
+
 if __name__ == '__main__':
     app.run()

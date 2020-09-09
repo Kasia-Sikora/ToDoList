@@ -1,3 +1,5 @@
+import {dataHandler} from "./dataHandler.js";
+
 export let dom = {
 
     container: document.getElementsByClassName('container')[0],
@@ -12,19 +14,7 @@ export let dom = {
     },
 
     createNewBoard: function () {
-        let card = document.createElement('div');
-        card.setAttribute('class', 'card');
-        let cardBody = document.createElement('div');
-        cardBody.setAttribute('class', 'card-body');
-        let cardTitle = document.createElement('h5');
-        cardTitle.innerText = "New Board"
-        cardTitle.setAttribute('class', 'card-title');
-        let cardSubtitle = document.createElement('h5');
-        cardSubtitle.setAttribute('class', 'card-subtitle mb-2 text-muted');
-        cardSubtitle.innerText = (new Date()).toDateString();
-        cardBody.appendChild(cardTitle);
-        cardBody.appendChild(cardSubtitle);
-        card.appendChild(cardBody);
+        let card = dom.createCard();
         dom.container.appendChild(card);
     },
 
@@ -37,22 +27,34 @@ export let dom = {
     },
 
     createBoard: function (board) {
+        let card = dom.createCard(board.title, board.date, board.id);
+        this.container.appendChild(card);
+    },
+
+    createCard(title = "New Card", date = (new Date()).toDateString(), boardId = 0) {
         let card = document.createElement('div');
         card.setAttribute('class', 'card');
         let cardBody = document.createElement('div');
         cardBody.setAttribute('class', 'card-body');
         let cardTitle = document.createElement('h5');
+        cardTitle.innerText = title;
         cardTitle.setAttribute('class', 'card-title');
-        cardTitle.innerText = board.title;
-        let cardSubtitle = document.createElement('h5');
-        cardSubtitle.setAttribute('class', 'card-subtitle mb-2 text-muted');
-        cardSubtitle.innerText = board.date;
+        let close = document.createElement("button");
+        close.setAttribute('type', 'button');
+        close.setAttribute('class', 'close');
+        close.setAttribute('aria-label', 'Close');
+        let span = document.createElement('span');
+        span.setAttribute('aria-hidden', 'true');
+        span.innerHTML = "&times;";
+        span.addEventListener('click', () => {
+            dom.removeCard(boardId, card);
+        })
+        close.appendChild(span);
+        cardTitle.appendChild(close);
         cardBody.appendChild(cardTitle);
-        cardBody.appendChild(cardSubtitle);
         card.appendChild(cardBody);
-        this.container.appendChild(card);
+        return card;
     },
-
     compare: function (a, b) {
         if (a.order < b.order) {
             return -1;
@@ -61,5 +63,11 @@ export let dom = {
             return 1;
         }
         return 0;
+    },
+    removeCard: function (boardId, card=null) {
+        card.parentNode.removeChild(card);
+        if (boardId !== 0){
+            dataHandler.removeBoard(boardId);
+        }
     }
 }
