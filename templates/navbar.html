@@ -7,11 +7,11 @@
         <button class="btn my-2 my-sm-0">Boards</button>
     </span>
     <span id="user">
-        {% if username %}
+        {% if user_name %}
             <div class="dropdown">
                 <button class="btn my-2 my-sm-0 dropdown-toggle" id="logout_button dropdownMenuButton"
                         data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">{{ username }}</button>
+                        aria-haspopup="true" aria-expanded="false">{{ user_name }}</button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="/logout">Logout</a>
                 </div>

@@ -1,3 +1,5 @@
+import json
+
 import connection
 
 
@@ -8,7 +10,6 @@ def check_if_user_exist_in_database(cursor, username):
         WHERE username = %(username)s''', {'username': username}
     )
     user_data = cursor.fetchone()
-    print('userData', user_data)
     if user_data is None:
         return False
     else:
@@ -25,7 +26,6 @@ def save_user(cursor, username, password):
         ''', {'username': username, 'password': password}
     )
     registration_login = cursor.fetchone()
-    print(registration_login)
     return [registration_login['id'], registration_login['username']]
 
 
@@ -38,9 +38,10 @@ def get_boards(cursor, user_id):
 @connection.connection_handler
 def save_new_board(cursor, data):
     cursor.execute(
-        '''INSERT INTO boards (id, title, owner)
-        VALUES(%(id)s, %(title)s, %(owner)s);''', data)
-    return ''
+        '''INSERT INTO boards (title, user_id, board_order)
+        VALUES(%(title)s, %(user_id)s, %(board_order)s);
+        SELECT * FROM boards WHERE title = %(title)s''', data)
+    return cursor.fetchone() is not None
 
 
 @connection.connection_handler
@@ -48,3 +49,39 @@ def remove_board(cursor, board_id):
     cursor.execute(
         '''DELETE FROM boards WHERE id = %s''', board_id)
     return ''
+
+
+@connection.connection_handler
+def update_title(cursor, form_data):
+    cursor.execute(
+        '''UPDATE boards  SET title = %(title)s WHERE id = %(id)s;
+        SELECT title from boards WHERE id = %(id)s''', form_data)
+    return cursor.fetchone() is not None
+
+
+@connection.connection_handler
+def check_highest_order_in_boards(cursor, user_id):
+    cursor.execute(
+        '''SELECT MAX(board_order) FROM boards WHERE user_id = %s''', user_id)
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def check_highest_order_in_cards(cursor, board_id):
+    cursor.execute(
+        '''SELECT MAX(card_order) FROM cards WHERE board_id = %s''', board_id)
+    max_order = cursor.fetchone()
+    if max_order['max'] is None:
+        return 0
+    else:
+        return max_order['max']
+
+
+@connection.connection_handler
+def save_new_card(cursor, data):
+    cursor.execute(
+        '''INSERT INTO cards (title, board_id, card_order, creation_date)
+        VALUES(%(title)s, %(board_id)s, %(card_order)s, %(date)s);
+        SELECT * FROM cards WHERE title = %(title)s''', data)
+    date = cursor.fetchone()
+    return date

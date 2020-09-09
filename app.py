@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Flask, render_template, request, session, redirect, url_for, json
 
 import data_handler
@@ -12,8 +14,6 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 def index():
     if utils.check_session_usr() is not None:
         user_login = utils.check_session_usr()[1]
-        user_id = utils.check_session_usr()[0]
-        print(user_login)
         return render_template('index.html', user_name=user_login)
     else:
         return render_template('index.html', user_name=None)
@@ -38,7 +38,7 @@ def registration():
             user = data_handler.save_user(username, hashed_password)
             session['id'] = user[0]
             session['username'] = user[1]
-            return render_template("index.html", username=session['username'])
+            return render_template("index.html", user_name=session['username'])
         else:
             error_message = "There's already user with this login"
             return render_template('index.html', message=error_message)
@@ -56,7 +56,7 @@ def login():
             if utils.verify_password(user_data['password'], password):
                 session['username'] = request.form['username']
                 session['id'] = user_id
-                return render_template('index.html', username=session['username'])
+                return render_template('index.html', user_name=session['username'])
             else:
                 message = "Invalid data"
                 return render_template('index.html', message=message)
@@ -72,7 +72,6 @@ def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
     session.pop('id', None)
-    print(session)
     return redirect(url_for('index'))
 
 
@@ -91,10 +90,8 @@ def get_data():
 
 @app.route('/get_boards')
 def get_boards():
-    print(session)
     if len(session) > 0:
         boards = data_handler.get_boards(session['id'])
-        print(boards)
         return json.dumps(boards)
     else:
         return json.dumps(None)
@@ -109,22 +106,43 @@ def get_cards():
 @app.route('/get_statuses')
 def get_statuses():
     statuses = data_handler.getStatuses()
-    print(statuses)
     return json.dumps(statuses)
 
 
 @app.route('/save-boards', methods=['POST'])
 def save_boards_from_JS():
     new_board = request.get_json()
-    print(new_board)
     data_handler.save_new_board(new_board)
     return ''
 
 
-@app.route('/remove_board/<boardId>', methods=['DELETE'])
-def remove_board(boardId):
-    data_handler.remove_board(boardId)
+@app.route('/remove_board/<board_id>', methods=['DELETE'])
+def remove_board(board_id):
+    data_handler.remove_board(board_id)
     return json.dumps(0)
+
+
+@app.route('/change_title', methods=['POST'])
+def change_title():
+    if request.method == 'POST':
+        form_data = json.loads(request.data)
+        if form_data['id'] != '0':
+            return json.dumps(data_handler.update_title(form_data))
+        else:
+            order = data_handler.check_highest_order_in_boards(str(session['id']))['max'] + 1
+            data = {'title': form_data['title'], 'user_id': int(session['id']), 'board_order': order}
+            return json.dumps(data_handler.save_new_board(data))
+
+
+@app.route('/new_card', methods=['POST'])
+def new_card():
+    if request.method == 'POST':
+        form_data = json.loads(request.data)
+        order = data_handler.check_highest_order_in_cards(str(form_data['id'])) + 1
+        date = datetime.datetime.now().strftime("%a %d %b %Y %X")
+        data = {'title': form_data['title'], 'board_id': form_data['id'], 'card_order': order,
+                'date': date}
+        return json.dumps(data_handler.save_new_card(data))
 
 
 if __name__ == '__main__':

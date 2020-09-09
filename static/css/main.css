@@ -69,19 +69,61 @@ button {
     margin-top: 5px;
 }
 
-.dropdown-menu, .show{
+.card {
+    height: max-content;
+}
+
+.dropdown-menu, .show {
     margin-left: -70px;
 }
 
-.card-subtitle{
+.card-subtitle {
     font-size: 0.7rem;
 }
 
+.card-title {
+    font-weight: bold;
+}
+
+#boardTitle {
+    width: 90%;
+    border: none;
+    float: left;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 5px;
+}
+
+input:focus {
+    border: black 1px;
+}
+
+.card-footer {
+    padding: unset;
+    background-color: unset;
+}
 
 #user {
     position: absolute;
     float: right;
     right: 15px;
+}
+
+#addCard,
+#addCard:focus {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    box-shadow: none;
+    font-style: italic;
+}
+
+#addCard:focus {
+    font-weight: bolder;
+}
+
+#addBoard {
+    height: max-content;
+    min-height: 120px;
 }
 
 /* For tablets: */
@@ -186,7 +228,7 @@ button {
         width: 100%;
     }
 
-    .container{
+    .container {
         max-width: 95vw;
     }
 }
