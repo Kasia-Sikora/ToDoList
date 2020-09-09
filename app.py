@@ -96,11 +96,11 @@ def get_boards():
     else:
         return json.dumps(None)
 
-
-@app.route('/get_cards')
-def get_cards():
-    cards = data_handler.getCards()
-    return json.dumps(cards)
+#
+# @app.route('/get_cards')
+# def get_cards():
+#     cards = data_handler.getCards()
+#     return json.dumps(cards)
 
 
 @app.route('/get_statuses')
@@ -143,6 +143,11 @@ def new_card():
         data = {'title': form_data['title'], 'board_id': form_data['id'], 'card_order': order,
                 'date': date}
         return json.dumps(data_handler.save_new_card(data))
+
+
+@app.route('/get_cards')
+def get_cards():
+    return json.dumps(data_handler.get_user_cards(str(session['id'])))
 
 
 if __name__ == '__main__':

@@ -85,3 +85,12 @@ def save_new_card(cursor, data):
         SELECT * FROM cards WHERE title = %(title)s''', data)
     date = cursor.fetchone()
     return date
+
+
+@connection.connection_handler
+def get_user_cards(cursor, user_id):
+    cursor.execute(
+        '''SELECT c.id, c.title, c.board_id, c.creation_date FROM cards AS c
+    LEFT JOIN boards AS b ON c.board_id = b.id WHERE b.user_id = %s''',
+        user_id)
+    return cursor.fetchall()

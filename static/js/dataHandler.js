@@ -40,7 +40,13 @@ export let dataHandler = {
             .then(response => response.json())
             .then(data => console.log(data))
     },
-    getCards(showCards) {
-
+    getCards() {
+        console.log('dupa')
+        fetch('/get_cards', {
+            method: 'GET',
+            credentials: 'same-origin',
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
     }
 }
