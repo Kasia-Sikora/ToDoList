@@ -1,5 +1,3 @@
-import json
-
 import connection
 
 
@@ -40,14 +38,15 @@ def save_new_board(cursor, data):
     cursor.execute(
         '''INSERT INTO boards (title, user_id, board_order)
         VALUES(%(title)s, %(user_id)s, %(board_order)s);
-        SELECT * FROM boards WHERE title = %(title)s''', data)
-    return cursor.fetchone() is not None
+        SELECT id FROM boards WHERE title = %(title)s''', data)
+    board_id = cursor.fetchone()
+    return board_id['id']
 
 
 @connection.connection_handler
 def remove_board(cursor, board_id):
     cursor.execute(
-        '''DELETE FROM boards WHERE id = %s''', board_id)
+        '''DELETE FROM boards WHERE id = %(board_id)s''', {'board_id': board_id})
     return ''
 
 
@@ -94,3 +93,10 @@ def get_user_cards(cursor, user_id):
     LEFT JOIN boards AS b ON c.board_id = b.id WHERE b.user_id = %s''',
         user_id)
     return cursor.fetchall()
+
+
+@connection.connection_handler
+def remove_card(cursor, card_id):
+    cursor.execute(
+        '''DELETE FROM cards WHERE id = %(card_id)s''', {'card_id': card_id})
+    return ''

@@ -21,14 +21,16 @@ export let dataHandler = {
             .then(response => response.json())
             .then(data => console.log(data))
     },
-    sentData(form) {
+    sentData(form, callback) {
         fetch('/change_title', {
             method: 'POST',
             credentials: 'same-origin',
             body: JSON.stringify(form)
         })
             .then(response => response.json())
-            .then(data => console.log(JSON.parse(data)))
+            .then(data => {
+                callback(data)
+            })
     },
 
     sentCardData(form) {
@@ -40,13 +42,22 @@ export let dataHandler = {
             .then(response => response.json())
             .then(data => console.log(data))
     },
-    getCards() {
-        console.log('dupa')
+    getCards(callback) {
         fetch('/get_cards', {
             method: 'GET',
             credentials: 'same-origin',
         })
             .then(response => response.json())
+            .then(data => callback(data))
+    },
+
+    removeCard(id) {
+        fetch('/remove_card/' + id, {
+            method: 'DELETE',
+            credentials: 'same-origin',
+            body: id
+        })
+            .then((response => response.json()))
             .then(data => console.log(data))
     }
 }

@@ -150,5 +150,10 @@ def get_cards():
     return json.dumps(data_handler.get_user_cards(str(session['id'])))
 
 
+@app.route('/remove_card/<card_id>', methods=['DELETE'])
+def remove_card(card_id):
+    data_handler.remove_card(card_id)
+    return json.dumps(0)
+
 if __name__ == '__main__':
     app.run()
