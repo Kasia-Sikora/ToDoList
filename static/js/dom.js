@@ -1,5 +1,6 @@
 import {dataHandler} from "./dataHandler.js";
 import {utils} from "./utils.js";
+import {init} from "./main.js"
 
 export let dom = {
 
@@ -84,7 +85,8 @@ export let dom = {
         addCardButton.innerText = '+ Add New Card'
         addCardButton.addEventListener('click', () => {
             if (boardId !== 0) {
-                this.createNewCard(boardId, cardBody)
+                addCardButton.style.display = 'none';
+                this.createNewCard(addCardButton, boardId, cardBody)
             } else {
                 alert('You have to name your board first')
             }
@@ -104,14 +106,14 @@ export let dom = {
             dataHandler.removeBoard(boardId);
         }
     },
-    createNewCard(boardId, cardBody) {
+    createNewCard(addCardButton, boardId, cardBody) {
         let inputBoardId = document.createElement('input');
         inputBoardId.setAttribute('value', boardId);
         inputBoardId.setAttribute('class', 'form-control');
         inputBoardId.setAttribute('name', 'id');
         inputBoardId.style.display = 'none';
         let inputCard = document.createElement('textarea');
-        inputCard.setAttribute('placeholder', 'Enter title of your brand new card:)');
+        inputCard.setAttribute('placeholder', 'Enter title of your brand new card :)');
         inputCard.setAttribute('class', 'form-control');
         inputCard.setAttribute('id', 'exampleFormControlTextarea1');
         inputCard.setAttribute('rows', '3');
@@ -122,11 +124,33 @@ export let dom = {
         form.setAttribute('method', 'post')
         form.appendChild(inputCard);
         form.appendChild(inputBoardId);
-        form.addEventListener('keyup', function (event) {
-            if (event.code === 'Enter') {
-                dataHandler.sentCardData({title: inputCard.value, id: inputBoardId.value})
-            }
+
+        let innerCardCardButton = document.createElement('button')
+        innerCardCardButton.setAttribute('class', 'btn my-2 my-sm-0')
+        innerCardCardButton.innerText = 'Add Card'
+        innerCardCardButton.addEventListener('click', function (event) {
+            dataHandler.sentCardData({title: inputCard.value, id: inputBoardId.value}, async (data) => {
+                dom.close(addCardButton, form, innerCardCardButton, close)
+                await dom.createCard(data)
+            })
+        });
+        innerCardCardButton.style.float = 'left';
+
+        let span = document.createElement('span');
+        span.setAttribute('aria-hidden', 'true');
+        span.innerHTML = "&times;";
+        span.addEventListener('click', () => {
+            dom.close(addCardButton, form, innerCardCardButton, close)
         })
+        let close = document.createElement('button');
+        close.setAttribute('type', 'button');
+        close.setAttribute('class', 'close');
+        close.setAttribute('aria-label', 'Close');
+        close.style.float = 'left';
+
+        close.appendChild(span);
+        cardBody.parentNode.lastChild.appendChild(innerCardCardButton)
+        cardBody.parentNode.lastChild.appendChild(close)
         cardBody.parentNode.insertBefore(form, cardBody.nextSibling)
     },
     showCards(cards) {
@@ -151,7 +175,7 @@ export let dom = {
         close.setAttribute('class', 'close');
         close.setAttribute('aria-label', 'Close');
 
-         let span = document.createElement('span');
+        let span = document.createElement('span');
         span.setAttribute('aria-hidden', 'true');
         span.innerHTML = "&times;";
         span.addEventListener('click', () => {
@@ -168,5 +192,12 @@ export let dom = {
         console.log(card)
         card.parentNode.removeChild(card);
         dataHandler.removeCard(cardId);
+    },
+
+    close(addCardButton, form, innerCardCardButton, close) {
+        addCardButton.style.display = 'block';
+        form.parentNode.removeChild(form);
+        innerCardCardButton.parentNode.removeChild(innerCardCardButton)
+        close.parentNode.removeChild(close)
     }
 }

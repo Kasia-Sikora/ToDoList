@@ -33,14 +33,14 @@ export let dataHandler = {
             })
     },
 
-    sentCardData(form) {
+    sentCardData(form, callback) {
         fetch('/new_card', {
             method: 'POST',
             credentials: 'same-origin',
             body: JSON.stringify(form)
         })
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => callback(data))
     },
     getCards(callback) {
         fetch('/get_cards', {
