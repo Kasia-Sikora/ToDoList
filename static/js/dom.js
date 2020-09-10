@@ -67,6 +67,7 @@ export let dom = {
             if (event.code === 'Enter') {
                 dataHandler.sentData({title: input.value, id: inputId.value}, async (data) => {
                     await cardTitle.setAttribute('id', 'board ' + data)
+                    inputId.setAttribute('value', data);
                 })
             }
         })
@@ -84,9 +85,10 @@ export let dom = {
         addCardButton.setAttribute('id', 'addCard')
         addCardButton.innerText = '+ Add New Card'
         addCardButton.addEventListener('click', () => {
-            if (boardId !== 0) {
+            console.log(inputId.getAttribute('id'))
+            if (inputId.getAttribute('value') !== '0') {
                 addCardButton.style.display = 'none';
-                this.createNewCard(addCardButton, boardId, cardBody)
+                this.createNewCard(addCardButton, inputId.getAttribute('value'), cardBody)
             } else {
                 alert('You have to name your board first')
             }

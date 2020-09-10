@@ -45,8 +45,10 @@ def save_new_board(cursor, data):
 
 @connection.connection_handler
 def remove_board(cursor, board_id):
+    print(board_id)
     cursor.execute(
-        '''DELETE FROM boards WHERE id = %(board_id)s''', {'board_id': board_id})
+        '''DELETE FROM cards WHERE board_id = %(board_id)s;
+        DELETE FROM boards WHERE id = %(board_id)s''', {'board_id': board_id})
     return ''
 
 

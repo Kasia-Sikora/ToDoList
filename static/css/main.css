@@ -40,6 +40,10 @@ button {
     margin-bottom: unset;
 }
 
+form{
+    margin: 0 5px;
+}
+
 .nav > form > button:hover,
 .nav > form > button:focus {
     background-color: rgba(219, 125, 39, 0.8);

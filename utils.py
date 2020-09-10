@@ -17,3 +17,13 @@ def check_session_usr():
         return [session['id'], session['username']]
     except KeyError:
         return None
+
+
+def save_user_session(user):
+    session['id'] = user[0]
+    session['username'] = user[1]
+
+
+def remove_user_from_session():
+    session.pop('username', None)
+    session.pop('id', None)
