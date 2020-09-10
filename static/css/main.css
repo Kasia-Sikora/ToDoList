@@ -36,6 +36,10 @@ button {
     background-color: rgba(226, 156, 97, 0.8);
 }
 
+.board-title{
+    margin-bottom: unset;
+}
+
 .nav > form > button:hover,
 .nav > form > button:focus {
     background-color: rgba(219, 125, 39, 0.8);
@@ -66,11 +70,16 @@ button {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
     grid-gap: 5px;
-    margin-top: 5px;
+    margin: 5px auto 10px auto;
 }
 
 .card {
     height: max-content;
+    padding-top: 10px;
+}
+
+.card-body{
+    padding: 5px;
 }
 
 .dropdown-menu, .show {
@@ -99,8 +108,14 @@ input:focus {
 }
 
 .card-footer {
-    padding: unset;
+    padding: 2px;
     background-color: unset;
+}
+
+.inner-card{
+    margin: 5px 0;
+    padding: 5px;
+    background-color: rgba(255, 228, 196, 0.5);
 }
 
 #user {

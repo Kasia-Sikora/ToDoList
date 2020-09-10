@@ -39,7 +39,7 @@ export let dom = {
         let cardBody = document.createElement('div');
         cardBody.setAttribute('class', 'card-body');
         let cardTitle = document.createElement('h5');
-        cardTitle.setAttribute('class', 'card-title');
+        cardTitle.setAttribute('class', 'board-title');
         cardTitle.style.display = 'inline-block';
         if (boardId !== 0) {
             cardTitle.setAttribute('id', 'board ' + boardId);
@@ -154,6 +154,7 @@ export let dom = {
         cardBody.parentNode.insertBefore(form, cardBody.nextSibling)
     },
     showCards(cards) {
+        cards.sort(utils.compare);
         for (let card of cards) {
             dom.createCard(card);
         }
@@ -162,7 +163,7 @@ export let dom = {
         console.log(card.title)
         let board = document.getElementById('board ' + card.board_id)
         let cardInBoard = document.createElement('div');
-        cardInBoard.setAttribute('class', 'card');
+        cardInBoard.setAttribute('class', 'card inner-card');
         let cardTitle = document.createElement('h5');
         cardTitle.setAttribute('class', 'card-title');
         cardTitle.innerText = card.title.trim();
@@ -186,7 +187,7 @@ export let dom = {
         cardTitle.appendChild(close);
         cardInBoard.appendChild(cardTitle);
         cardInBoard.appendChild(cardSubtitle);
-        board.parentNode.insertBefore(cardInBoard, board.nextSibling)
+        board.parentNode.appendChild(cardInBoard)
     },
     removeCard(card, cardId) {
         console.log(card)

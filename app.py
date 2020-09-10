@@ -96,12 +96,6 @@ def get_boards():
     else:
         return json.dumps(None)
 
-#
-# @app.route('/get_cards')
-# def get_cards():
-#     cards = data_handler.getCards()
-#     return json.dumps(cards)
-
 
 @app.route('/get_statuses')
 def get_statuses():
@@ -130,7 +124,7 @@ def change_title():
             return json.dumps(data_handler.update_title(form_data))
         else:
             order = data_handler.check_highest_order_in_boards(str(session['id']))['max'] + 1
-            data = {'title': form_data['title'], 'user_id': int(session['id']), 'board_order': order}
+            data = {'title': form_data['title'], 'user_id': int(session['id']), 'display_order': order}
             return json.dumps(data_handler.save_new_board(data))
 
 
@@ -140,20 +134,24 @@ def new_card():
         form_data = json.loads(request.data)
         order = data_handler.check_highest_order_in_cards(str(form_data['id'])) + 1
         date = datetime.datetime.now().strftime("%a %d %b %Y %X")
-        data = {'title': form_data['title'], 'board_id': form_data['id'], 'card_order': order,
+        data = {'title': form_data['title'], 'board_id': form_data['id'], 'display_order': order,
                 'date': date}
         return json.dumps(data_handler.save_new_card(data))
 
 
 @app.route('/get_cards')
 def get_cards():
-    return json.dumps(data_handler.get_user_cards(str(session['id'])))
+    if len(session) > 0:
+        return json.dumps(data_handler.get_user_cards(str(session['id'])))
+    else:
+        return json.dumps(None)
 
 
 @app.route('/remove_card/<card_id>', methods=['DELETE'])
 def remove_card(card_id):
     data_handler.remove_card(card_id)
     return json.dumps(0)
+
 
 if __name__ == '__main__':
     app.run()
