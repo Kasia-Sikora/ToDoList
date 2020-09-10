@@ -1,7 +1,7 @@
 export let dataHandler = {
 
-    getBoards: function (callback) {
-        fetch('/get_boards', {
+    getData: function (url, callback) {
+        fetch(url, {
             method: 'GET',
             credentials: 'same-origin'
         })
@@ -12,8 +12,8 @@ export let dataHandler = {
                 }
             })
     },
-    removeBoard: function (boardId) {
-        fetch('/remove_board/' + boardId, {
+    removeItem: function (url, boardId) {
+        fetch(url + boardId, {
             method: 'DELETE',
             credentials: 'same-origin',
             body: boardId
@@ -21,43 +21,17 @@ export let dataHandler = {
             .then(response => response.json())
             .then(data => console.log(data))
     },
-    sentData(form, callback) {
-        fetch('/change_title', {
+    sentData(url, form, callback) {
+        fetch(url, {
             method: 'POST',
             credentials: 'same-origin',
             body: JSON.stringify(form)
         })
             .then(response => response.json())
             .then(data => {
-                callback(data)
+                if (data != null) {
+                    callback(data)
+                }
             })
     },
-
-    sentCardData(form, callback) {
-        fetch('/new_card', {
-            method: 'POST',
-            credentials: 'same-origin',
-            body: JSON.stringify(form)
-        })
-            .then(response => response.json())
-            .then(data => callback(data))
-    },
-    getCards(callback) {
-        fetch('/get_cards', {
-            method: 'GET',
-            credentials: 'same-origin',
-        })
-            .then(response => response.json())
-            .then(data => callback(data))
-    },
-
-    removeCard(id) {
-        fetch('/remove_card/' + id, {
-            method: 'DELETE',
-            credentials: 'same-origin',
-            body: id
-        })
-            .then((response => response.json()))
-            .then(data => console.log(data))
-    }
 }

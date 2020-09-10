@@ -7,7 +7,6 @@ body {
     background-size: cover;
 }
 
-
 h1 {
     font-family: 'Playball', cursive;
     text-align: center;
@@ -15,21 +14,11 @@ h1 {
     margin-bottom: 0;
 }
 
-img[alt="menu"] {
-    width: 25px;
-    height: auto;
-}
-
 a,
 a:hover,
 a:focus {
     text-decoration: none;
     color: #494444;
-}
-
-.nav > form > button {
-    background-color: rgba(226, 156, 97, 0.8);
-    border: rgb(215, 128, 48) 2px;
 }
 
 button {
@@ -42,37 +31,8 @@ button:hover:not(.close) {
     background-color: rgba(219, 125, 39, 0.8);
 }
 
-.board-title {
-    margin-bottom: unset;
-}
-
 form {
     margin: 0 5px;
-}
-
-.nav > form > button:hover,
-.nav > form > button:focus {
-    background-color: rgba(219, 125, 39, 0.8);
-    border: rgb(215, 128, 48) 2px;
-}
-
-.nav {
-    padding: 0 15px 5px 15px;
-}
-
-.nav-item {
-    margin: 2px 5px;
-}
-
-.form-inline {
-    width: 100px;
-    height: auto;
-    display: contents;
-}
-
-.nav {
-    background-color: rgba(255, 228, 196, 0.8);
-    width: 100%;
 }
 
 .container {
@@ -81,6 +41,37 @@ form {
     grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
     grid-gap: 5px;
     margin: 5px auto 10px auto;
+}
+
+.nav {
+    padding: 0 15px 5px 15px;
+    background-color: rgba(255, 228, 196, 0.8);
+    width: 100%;
+}
+
+.nav > form > button {
+    background-color: rgba(226, 156, 97, 0.8);
+    border: rgb(215, 128, 48) 2px;
+}
+
+.nav > form > button:hover,
+.nav > form > button:focus {
+    background-color: rgba(219, 125, 39, 0.8);
+    border: rgb(215, 128, 48) 2px;
+}
+
+.nav-item {
+    margin: 2px 5px;
+}
+
+.board-title {
+    margin-bottom: unset;
+}
+
+.form-inline {
+    width: 100px;
+    height: auto;
+    display: contents;
 }
 
 .card {
@@ -96,12 +87,31 @@ form {
     margin-left: -70px;
 }
 
+.card-title {
+    font-weight: bold;
+}
+
 .card-subtitle {
     font-size: 0.7rem;
 }
 
-.card-title {
-    font-weight: bold;
+.card-footer {
+    padding: 2px;
+    background-color: unset;
+}
+
+.inner-card {
+    margin: 5px 0;
+    padding: 5px;
+    background-color: rgba(255, 228, 196, 0.5);
+}
+
+.modal-dialog {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    max-width: max-content;
+    margin: unset;
 }
 
 #boardTitle {
@@ -120,17 +130,6 @@ form {
 #myModalLabel {
     font-family: 'Playball', cursive;
     font-weight: bold;
-}
-
-.card-footer {
-    padding: 2px;
-    background-color: unset;
-}
-
-.inner-card {
-    margin: 5px 0;
-    padding: 5px;
-    background-color: rgba(255, 228, 196, 0.5);
 }
 
 #user {
@@ -152,129 +151,13 @@ form {
     font-weight: bolder;
 }
 
+
 #addBoard {
     height: max-content;
     min-height: 120px;
-}
-
-
-.modal-dialog {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) !important;
-    max-width: max-content;
-    margin: unset;
 }
 
 #elegantModalForm1 ~ .dropdown-menu, #elegantModalForm1 ~ .show,
 #elegantModalForm2 ~ .dropdown-menu, #elegantModalForm2 ~ .show {
     margin-left: unset;
 }
-
-/* For tablets: */
-@media only screen and (min-width: 670px) {
-    .col-s-1 {
-        width: 8.33%;
-    }
-
-    .col-s-2 {
-        width: 16.66%;
-    }
-
-    .col-s-3 {
-        width: 25%;
-    }
-
-    .col-s-4 {
-        width: 33.33%;
-    }
-
-    .col-s-5 {
-        width: 41.66%;
-    }
-
-    .col-s-6 {
-        width: 50%;
-    }
-
-    .col-s-7 {
-        width: 58.33%;
-    }
-
-    .col-s-8 {
-        width: 66.66%;
-    }
-
-    .col-s-9 {
-        width: 75%;
-    }
-
-    .col-s-10 {
-        width: 83.33%;
-    }
-
-    .col-s-11 {
-        width: 91.66%;
-    }
-
-    .col-s-12 {
-        width: 100%;
-    }
-}
-
-/* For desktop: */
-@media only screen and (min-width: 1130px) {
-
-    .col-1 {
-        width: 8.33%;
-    }
-
-    .col-2 {
-        width: 16.66%;
-    }
-
-    .col-3 {
-        width: 25%;
-    }
-
-    .col-4 {
-        width: 33.33%;
-    }
-
-    .col-5 {
-        width: 41.66%;
-    }
-
-    .col-6 {
-        width: 50%;
-    }
-
-    .col-7 {
-        width: 58.33%;
-    }
-
-    .col-8 {
-        width: 66.66%;
-    }
-
-    .col-9 {
-        width: 75%;
-    }
-
-    .col-10 {
-        width: 83.33%;
-    }
-
-    .col-11 {
-        width: 91.66%;
-    }
-
-    .col-12 {
-        width: 100%;
-    }
-
-    .container {
-        max-width: 95vw;
-    }
-}
-
